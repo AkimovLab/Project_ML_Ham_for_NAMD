@@ -269,6 +269,21 @@ for i in range(len(models)):
 # ## Using the model for test set
 
 # In[357]:
+# Defining an auxiliary function
+def upper_vector_to_symmetric_nparray(upper_vector, upper_indices, mat_shape):
+    """
+    This function gets the upper triangular part of a matrix as a vector and retuns a symmetric matrix
+    Args:
+        upper_vector (nparray): The upper triangular of a matrix
+        upper_indices (nparray): The indices of the upper part of the matrix
+        mat_shape (tuple): The shape of the original numpy array
+    Returns:
+        matrix (nparray): The symmetric matix built based on the upper triangular matrix
+    """
+    matrix = np.zeros(mat_shape)
+    matrix[upper_indices] = upper_vector
+    matrix = matrix + matrix.T - np.diag(matrix.diagonal())
+    return matrix
 
 
 # Some reference for reading and writing CP2K wfn files
@@ -302,7 +317,7 @@ for step in range(len(converged_ks_mats_1)):
         predict_scaled = output_scalers[i].inverse_transform(predict)
         ks_mat.append(predict_scaled)
     ks_mat = np.concatenate(ks_mat, axis=1)
-    ks_mat = data_conv.upper_vector_to_symmetric_nparray(ks_mat, upper_indices, converged_ks_mats[0].shape)
+    ks_mat = upper_vector_to_symmetric_nparray(ks_mat, upper_indices, converged_ks_mats[0].shape)
     production_timing.append(time.time()-t1)
     t1 = time.time()
     #overlap = atomic_overlaps[test_indices[step]]
