@@ -8,7 +8,7 @@ ML is done using scikit-learn package. All other calculations and analysis, incl
 
 `1_data_generation` contains CP2K inputs for computing the reference data for training and testing for both structures. It generates the Kohn-Sham (KS) Hamiltonian matrices for atomic-guess and for converged results using PBE, B3LYP, and HSE06 functionals. 
 The data are then parsed using Libra code in `extract_data.py` and the matrices nd coefficients are stored in `.npy` files. 
-The molecular dynamics trajectory for C60 is provided in the `trajectory_coordinates.tar.bz2` file and the trajectory for Si75H64 nanocluster, in `Si75H64-300-pos-1.zip` file, is adopted from our previous calculations in this link.
+The molecular dynamics trajectory for C60 is provided in the `trajectory_coordinates.tar.bz2` file and the trajectory for Si75H64 nanocluster, in `Si75H64-300-pos-1.zip` file, is adopted from our previous calculations in [this link](https://github.com/AkimovLab/Project_Libra_CP2K).
 
 
 In `2_ml_model_c60` and `3_ml_model_si75h64` folders, the ML is performed by taking atomic-guess Hamiltonian matrices as input and converged Hamiltonian matrices from one level of theory mentioned above as outputs.
@@ -16,7 +16,7 @@ For ML, a kernel ridge regression (KRR) model is adopted and the models are trai
 
 
 Using the molecular orbital coefficients from reference and ML predicted data, the overlap and time-overlap matrices are built to perform NA-MD. A mixed electron and hole single-particle excitation basis is made in `step_3_*.py` files.
-NA-MD is performed to study hot-carrier relaxation dynamics for both structures using `step_4_*.py` files in `namd` folders. All analysis scripts related to this project are similar to the scripts already in Tutorials Libra repository of CompChemCyberTraining.
+NA-MD is performed to study hot-carrier relaxation dynamics for both structures using `step_4_*.py` files in `namd` folders. All analysis scripts related to this project are similar to the scripts already in [Tutorials Libra repository](https://github.com/compchem-cybertraining/Tutorials_Libra/tree/master/6_dynamics/2_nbra_workflows) of [CompChemCyberTraining](https://github.com/compchem-cybertraining).
 
 
 ```
