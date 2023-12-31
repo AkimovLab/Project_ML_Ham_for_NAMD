@@ -1,0 +1,29 @@
+#!/bin/sh -l
+#SBATCH --account=alexeyak
+#SBATCH --partition=valhalla  --qos=valhalla
+#SBATCH --clusters=faculty
+##SBATCH --partition=general-compute  --qos=general-compute
+##SBATCH --clusters=ub-hpc
+##SBATCH --partition=scavenger  --qos=scavenger
+#SBATCH --time=24:00:00 
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=24
+#SBATCH --constraint=AVX2
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=128000
+###SBATCH --mail-user=mshakiba@buffalo.edu
+echo "SLURM_JOBID="$SLURM_JOBID
+echo "SLURM_JOB_NODELIST="$SLURM_JOB_NODELIST
+echo "SLURM_NNODES="$SLURM_NNODES
+echo "SLURMTMPDIR="$SLURMTMPDIR
+echo "working directory="$SLURM_SUBMIT_DIR
+
+module load ccrsoft/legacy
+module use /projects/academic/alexeyak/mohammad/software/mymods
+module load cp2k_v23
+#module load jupyter
+export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so
+export OMP_NUM_THREADS=1
+
+python run_all.py --istep 598 --fstep 600
+rm "slurm-$SLURM_JOBID.out"

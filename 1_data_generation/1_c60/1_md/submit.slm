@@ -1,0 +1,24 @@
+#!/bin/sh -l
+#SBATCH --partition=valhalla  --qos=valhalla
+#SBATCH --clusters=faculty
+##SBATCH --partition=general-compute  --qos=general-compute
+##SBATCH --clusters=ub-hpc
+#SBATCH --time=24:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=64
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=128000
+###SBATCH --mail-user=mshakiba@buffalo.edu
+echo "SLURM_JOBID="$SLURM_JOBID
+echo "SLURM_JOB_NODELIST="$SLURM_JOB_NODELIST
+echo "SLURM_NNODES="$SLURM_NNODES
+echo "SLURMTMPDIR="$SLURMTMPDIR
+echo "working directory="$SLURM_SUBMIT_DIR
+
+# Here load whatever which is needed for running CP2K
+module load ccrsoft/legacy
+module use /projects/academic/alexeyak/mohammad/software/mymods
+module load cp2k_v23
+export OMP_NUM_THREADS=1
+mpirun -n 64 cp2k.psmp -i md-2.inp -o out-2.log
+
